@@ -1,5 +1,6 @@
 package Pages;
 
+import StepDefinitions.Hooks;
 import Utilities.GWD;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -11,21 +12,21 @@ import java.time.Duration;
 public class ParentPage {
     public WebDriverWait wait = new WebDriverWait(GWD.getDriver(), Duration.ofSeconds(20));
 
-    public void mySendKeys(WebElement e, String  text) {
-        wait.until(ExpectedConditions.visibilityOf(e));
-        scrollToElement(e);
-        e.clear();
-        e.sendKeys(text);
+    public static void myClick(WebElement element) {
+        Hooks.setLastUsedElement(element);
+        scrollToElement(element);
+        element.click();
     }
 
-    public void myClick(WebElement e) {
-        wait.until(ExpectedConditions.elementToBeClickable(e));
-        scrollToElement(e);
-        e.click();
+    public static void mySendKeys(WebElement element, String text) {
+        Hooks.setLastUsedElement(element);
+        scrollToElement(element);
+        element.clear();
+        element.sendKeys(text);
     }
 
 
-    public void scrollToElement(WebElement element){
+    public static void scrollToElement(WebElement element){
         JavascriptExecutor js=(JavascriptExecutor) GWD.getDriver();
         js.executeScript("arguments[0].scrollIntoView();", element);
     }
